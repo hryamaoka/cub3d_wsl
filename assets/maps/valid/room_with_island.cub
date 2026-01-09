@@ -1,0 +1,17 @@
+NO ./assets/textures/north.xpm
+SO ./assets/textures/south.xpm
+WE ./assets/textures/west.xpm
+EA ./assets/textures/east.xpm
+
+F 220,100,0
+C 225,30,0
+
+11111111111
+10000000001
+10000000001
+10001110001
+10001010001
+10001110001
+10000000001
+10000N00001
+11111111111

@@ -6,7 +6,8 @@
 # include "libft.h"
 # include "mlx.h"
 
-#include <fcntl.h>
+# include <fcntl.h>
+# include <math.h>
 
 typedef struct s_tex
 {
@@ -36,21 +37,68 @@ typedef struct s_player
     double y;
     double dir_x;
     double dir_y;
+    double plane_x;
+    double plane_y;
     char direction;
 }   t_player;
+
+typedef struct s_ray
+{
+    double      camera_x;
+    double      ray_dir_x;
+    double      ray_dir_y;
+    int         map_x;
+    int         map_y;
+    double      side_dist_x;
+    double      side_dist_y;
+    double      delta_dist_x;
+    double      delta_dist_y;
+    double      perp_wall_dist;
+    int         step_x;
+    int         step_y;
+    int         hit;
+    int         side;
+    int         line_height;
+    int         draw_start;
+    int         draw_end;
+}   t_ray;
+
+
+typedef struct s_img
+{
+    void    *img;
+    char    *addr;
+    int     bits_per_pixel;
+    int     line_length;
+    int     endian;
+    int     width;
+    int     height;
+}   t_img;
+
+// t_sprite removed for mandatory part
 
 typedef struct s_game
 {
     void *mlx;
     void *win;
-    void *img; 
+    
+     
+    t_img img;
 
     t_tex tex;
+     
+    t_img wall_tex[4];  
+    
     t_color floor;
     t_color ceiling;
     t_map map;
     t_player player;
+    t_ray ray;
 } t_game;
+
+ //init_struct.c
+void init_game(t_game *game);
+void init_parse(t_game *game);
 
 //check
 int check_filename(char* filename);
@@ -64,5 +112,34 @@ void perror_and_exit(char *msg, t_game *game);
 
 //parse
 void parse(char *filename, t_game *game);
+
+
+//init_window.c
+int init_window(t_game *game);
+int close_game(t_game *game);
+int key_press(int keycode, t_game *game);
+void move_forward(t_game *game);
+void move_backward(t_game *game);
+void move_left(t_game *game);
+void move_right(t_game *game);
+void rotate_left(t_game *game);
+void rotate_right(t_game *game);
+
+//render
+int		render_frame(t_game *game);
+void	draw_textured_line(t_game *game, int x, int *draw, t_img *tex, int tex_x);
+void	draw_floor_ceiling(t_game *game, int x, int draw_start, int draw_end);
+
+//raycast
+void raycast(t_game *game);
+void perform_dda(t_game *game);
+void select_texture(t_game *game, t_img **tex);
+
+//player
+void init_player_dir(t_game *game);
+
+//init_textures.c
+int init_textures(t_game *game);
+unsigned int get_texture_color(t_img *tex, int x, int y);
 
 #endif

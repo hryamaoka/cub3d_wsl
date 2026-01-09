@@ -1,13 +1,20 @@
 #ifndef PARSE_H
 # define PARSE_H
 
-//parse_map.c
+ 
 int parse_map(int fd, t_game *game);
 
-//parse_utili.c
+ 
 int is_empty_line(char *line);
 
-//parse_player
+ 
+int parse_texture(char *line, t_game *game);
+int parse_color(char *line, t_game *game);
+
+ 
 int find_player(t_game *game);
+
+int check_map_chars(t_game *game);
+int check_map_closed(t_game *game);
 
 #endif
